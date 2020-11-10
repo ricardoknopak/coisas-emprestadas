@@ -78,7 +78,7 @@
       </div>
       <div class="item">
         <span class="icon green"><i class="fas fa-tshirt"></i></span>
-        <span class="shop-emprestar-text">D. Foster Wsllace tem uma camiseta para emprestar</span>
+        <span class="shop-emprestar-text">D. Foster Wallace tem uma camiseta para emprestar</span>
         <button>Emprestar</button>
       </div>
     </div>
