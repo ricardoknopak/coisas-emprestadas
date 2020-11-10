@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+body {
+  background-color: #003049;
+}
+nav {
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  height: 50px;
+  background-color: #f77f00;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-shadow: 2px 2px 5px #fcbf49;
+}
+.links {
+  width: 150px;
+  display: flex;
+  justify-content: space-around;
+  margin: 10px;
+}
+.logo {
+  color: #003049;
+  margin: 15px;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+.navbar {
+  color: #003049;
+  font-size: 1.4rem;
+  text-decoration: none;
+}
