@@ -2,9 +2,8 @@
 
 include 'header.php';
 include 'functions.php';
-session_start();
 $_SESSION['connected'] = true;
-$_SESSION['usuario'] = 4;
+$_SESSION['usuario'] = 3;
 if (!isset($_SESSION['connected']) || !isset($_SESSION['usuario'])) {
   header("Location: ./login.php");
   die('redirecionando...');
@@ -13,6 +12,9 @@ if (!isset($_SESSION['connected']) || !isset($_SESSION['usuario'])) {
 $usuario_id = $_SESSION['usuario'];
 
 $user = getUser($usuario_id);
+
+$userEmprestados = getUserEmprestimos($usuario_id);
+
 ?>
 
 <div class="container">
@@ -23,7 +25,9 @@ $user = getUser($usuario_id);
         <img src="<?= $user[0]['avatar'] ?>" />
       </div>
       <div class="info-body">
+        <p><?= $user[0]['nome'] ?></p>
         <p><?= $user[0]['descricao'] ?></p>
+        <p>Usuário desde: <?= $user[0]['data_registro'] ?></p>
       </div>
     </div>
     <div class="coisas_emprestadas">
@@ -31,9 +35,11 @@ $user = getUser($usuario_id);
         emprestadas <i class="fas fa-chevron-circle-down"></i>
       </span>
       <ul>
-        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</li>
-        <li>eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-        <li>d minim veniam, quis nostrud exercitation ullamco laboris nisi ut</li>
+        <li>
+          <?php echo $userEmprestados[0]['nome_coisa'] . " ( " .  $userEmprestados[0]['descricao_coisa'] . " ) <br/> " .
+            "Emprestimo: " .  $userEmprestados[0]['data_emprestimo'] . " - " . "Data Devolução: " . $userEmprestados[0]['data_devolucao'] .
+            " Dono: " . $userEmprestados[0]['proprietario'] ?>
+        </li>
       </ul>
     </div>
     <div class="coisas_disponives">
