@@ -3,7 +3,7 @@
 include 'header.php';
 include 'functions.php';
 $_SESSION['connected'] = true;
-$_SESSION['usuario'] = 3;
+$_SESSION['usuario'] = 4;
 if (!isset($_SESSION['connected']) || !isset($_SESSION['usuario'])) {
   header("Location: ./login.php");
   die('redirecionando...');
@@ -12,8 +12,8 @@ if (!isset($_SESSION['connected']) || !isset($_SESSION['usuario'])) {
 $usuario_id = $_SESSION['usuario'];
 
 $user = getUser($usuario_id);
-
 $userEmprestados = getUserEmprestimos($usuario_id);
+$minhasCoisas = getMinhasCoisas($usuario_id);
 
 ?>
 
@@ -35,39 +35,44 @@ $userEmprestados = getUserEmprestimos($usuario_id);
         emprestadas <i class="fas fa-chevron-circle-down"></i>
       </span>
       <ul>
-        <li>
-          <?php echo $userEmprestados[0]['nome_coisa'] . " ( " .  $userEmprestados[0]['descricao_coisa'] . " ) <br/> " .
-            "Emprestimo: " .  $userEmprestados[0]['data_emprestimo'] . " - " . "Data Devolução: " . $userEmprestados[0]['data_devolucao'] .
-            " Dono: " . $userEmprestados[0]['proprietario'] ?>
+        <?php
+        for ($i = 0; $i < count($userEmprestados); $i++) {
+          if ($userEmprestados[$i]['id_coisa']) {
+            echo "<li>";
+            echo $userEmprestados[$i]['nome_coisa'] . " ( " .  $userEmprestados[$i]['descricao_coisa'] . " ) <br/>";
+            echo "Emprestimo: " .  $userEmprestados[$i]['data_emprestimo'] . " - " . "Data Devolução: " . $userEmprestados[$i]['data_devolucao'] . "<br/>";
+            echo "Dono: " . $userEmprestados[$i]['proprietario'];
+            echo "</li>";
+          }
+        } ?>
         </li>
       </ul>
     </div>
     <div class="coisas_disponives">
       <span class="label">
-        para emprestar <i class="fas fa-chevron-circle-up"></i>
+        minha coisas <i class="fas fa-chevron-circle-up"></i>
       </span>
       <ul>
-        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</li>
-        <li>eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-        <li>d minim veniam, quis nostrud exercitation ullamco laboris nisi ut</li>
-      </ul>
-    </div>
-    <div class="notifications">
-      <span class="label">
-        notificações <i class="fas fa-info-circle"></i>
-      </span>
-      <ul>
-        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</li>
-        <li>eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-        <li>d minim veniam, quis nostrud exercitation ullamco laboris nisi ut</li>
+        <?php
+        for ($i = 0; $i < count($minhasCoisas); $i++) {
+          if ($minhasCoisas[$i]['id_coisa']) {
+            echo "<li>";
+            echo $minhasCoisas[$i]['nome_coisa'] . '-' . $minhasCoisas[$i]['descricao_coisa'] . "<br/>";
+            if ($minhasCoisas[$i]['status'] == 'E') {
+              echo "Emprestado para: " . $minhasCoisas[$i]['nome_locatario'] . ", dia " . $minhasCoisas[$id]['data_emprestimo'] . " (Data Devolução) " . $minhasCoisas[$i]['data_previsao_devolucao'];
+            } else {
+              echo "Disponível";
+            }
+          }
+        } ?>
       </ul>
     </div>
   </div>
   <div class="shop">
     <div class="item">
       <span class="icon blue"><i class="fas fa-bicycle"></i></span>
-      <span class="shop-emprestar-text">Garcia Márques tem uma biclicleta para emprestar!</span>
-      <button>Emprestar</button>
+      <span class="shop-emprestar-text"><?= $coisasDisponiveis[$i]['nome_proprietario'] ?> tem uma <?= $coisasDisponiveis[$i]['nome_proprietario'] ?> para emprestar!</span>
+      <button onclick="emprestar(<?= $usuario_id ?>, <?= $coisa_id ?>)">Emprestar</button>
     </div>
     <div class="item">
       <span class="icon orange"><i class="fas fa-football-ball"></i></span>

@@ -36,8 +36,43 @@ function getUserEmprestimos($id)
   $query->execute(array('id' => $id));
 
   $userEmprestados = array();
-  while ($row = $query->fetch()) {
+  while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
     array_push($userEmprestados, $row);
   }
   return $userEmprestados;
+}
+
+function getMinhasCoisas($id)
+{
+  try {
+    $conn = new PDO('mysql:host=localhost;dbname=coisas_emprestadas', 'root', '12mnmn 12');
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  } catch (PDOException $e) {
+    echo 'ERROR: ' . $e->getMessage();
+  }
+  $query = $conn->prepare("SELECT c.id as id_coisa, c.nome as nome_coisa, c.descricao as descricao_coisa,
+                  u.nome as nome_locatario, e.status as status, e.data_emprestimo as data_emprestimo, e.data_prevista_devolucao as data_previsao_devolucao
+              from coisas c
+                inner join emprestimos e on e.id_coisa = c.id
+                  inner join usuarios u on u.id = e.id_locatario
+                where c.id_proprietario = :id");
+
+  $query->execute(array('id' => $id));
+
+  $minhasCoisas = array();
+  while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+    array_push($minhasCoisas, $row);
+  }
+  return $minhasCoisas;
+}
+
+function coisasDisponiveis()
+{
+  try {
+    $conn = new PDO('mysql:host=localhost;dbname=coisas_emprestadas', 'root', '12mnmn 12');
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  } catch (PDOException $e) {
+    echo 'ERROR: ' . $e->getMessage();
+  }
+  $query = $conn->prepare("");
 }
