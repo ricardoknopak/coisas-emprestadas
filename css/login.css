@@ -1,0 +1,25 @@
+.container {
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+input[type="text"],
+input[type="password"] {
+  width: 250px;
+  height: 30px;
+  margin: 5px;
+}
+
+#submit {
+  width: 150px;
+  height: 30px;
+  margin: 5px;
+}
+
+#signin_form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

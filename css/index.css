@@ -95,6 +95,16 @@ button {
   background-color: indigo;
   color: antiquewhite;
 }
+
+.coisas-box {
+  display: flex;
+  flex-direction: column;
+  margin: 7px;
+  padding: 5px;
+  border-radius: 0.4rem;
+  background-color: lightgray;
+}
+
 .blue {
   color: blue;
 }

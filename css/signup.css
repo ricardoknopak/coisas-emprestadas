@@ -5,18 +5,17 @@ label {
   font-size: 1.2rem;
 }
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+input[type="password"] {
   width: 250px;
   height: 30px;
   margin: 5px 0;
 }
-input[type="checkbox"] {
-  margin: 5px 0;
-}
-.container_ {
+.container {
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: center;
+  height: 90vh;
 }
 .form-box {
   margin: 60px 0;

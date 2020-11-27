@@ -14,3 +14,12 @@
   <?php
   include 'header.php';
   ?>
+  <div class="container">
+    <div class="login">
+      <form id='signin_form' method="POST" action="validate_pass.php">
+        <input type="text" id="username" name="username" placeholder="Nome do usuario" /><br />
+        <input type="password" id="password" name="password" placeholder="Senha" /><br />
+        <input type="submit" id="submit" value="Entrar" />
+      </form>
+    </div>
+  </div>
