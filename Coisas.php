@@ -1,6 +1,10 @@
 <?php
 
-include 'App.php';
+// namespace App\Coisas;
+
+include_once 'App.php';
+
+
 class Coisas extends \App\App
 {
   public function __construct()
@@ -8,29 +12,16 @@ class Coisas extends \App\App
     parent::__construct();
   }
 
-  public function adicionar($nome, $descricao, $proprietario)
+  public function adicionaCoisa($id_usuario, $nome, $descricao)
   {
-    $cmd = $this->db->prepare("INSERT INTO coisas (nome, descricao, id_proprietario) values (:nonme, :descricao, :proprietario)");
-    $cmd->bindValue(":n", $nome);
-    $cmd->bindValue(":n", $descricao);
-    $cmd->bindValue(":n", $proprietario);
+    $cmd = $this->db->prepare("INSERT INTO coisas VALUE (null, '$nome', '$descricao', $id_usuario, 'L')");
+    $cmd->bindValue(":nome", $nome);
+    $cmd->bindValue(":descricao", $descricao);
+    $cmd->bindValue(":id_usuario", $id_usuario);
     if (!$cmd->execute()) {
       return false;
     }
     return true;
-  }
-
-  public function adicionaCoisa($id_usuario, $nome, $descricao)
-  {
-    $cmd = $this->db->prepare("INSERT INTO coisas (null, '$nome', '$descricao', $id_usuario, 'L')");
-    $cmd->bindValue("CONTINUA AQUI !!!!!!!!!", 0);
-
-
-
-
-
-
-    $here = 12;
   }
 
   public function buscarTodasCoisas()
@@ -60,7 +51,7 @@ class Coisas extends \App\App
               (SELECT e.data_prevista_devolucao from emprestimos e inner join usuarios u on u.id = e.id_locatario where e.id_coisa = csa.id
                   order by e.data_emprestimo desc limit 1) as data_devolucao,
               if((SELECT e.status from emprestimos e inner join usuarios u on u.id = e.id_locatario where e.id_coisa = csa.id
-                  order by e.data_emprestimo desc limit 1) = 'L', 'livre', 'locado') as status
+                  order by e.data_emprestimo desc limit 1) = 'E', 'locado', 'livre') as status
               FROM coisas csa
 			            INNER JOIN usuarios usu ON usu.id = csa.id_proprietario
 				              WHERE usu.id = :id");

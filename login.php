@@ -16,10 +16,12 @@
   ?>
   <div class="container">
     <div class="login">
-      <form id='signin_form' method="POST" action="validate_pass.php">
-        <input type="text" id="username" name="username" placeholder="Nome do usuario" /><br />
-        <input type="password" id="password" name="password" placeholder="Senha" /><br />
+      <form id='signin_form' method="POST" action="actions.php">
+        <input type="text" id="username" name="username" placeholder="Username" /><br />
+        <input type="password" id="senha" name="senha" placeholder="Senha" /><br />
+        <input type="hidden" name="actions" value="login" />
         <input type="submit" id="submit" value="Entrar" />
       </form>
     </div>
+    <a href="singup.php">Não é participante? Cadastre-se</a>
   </div>

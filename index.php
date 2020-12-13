@@ -1,18 +1,20 @@
 <?php
-include 'Coisas.php';
-include 'Usuarios.php';
+session_start();
+// use App\Usuarios\Usuarios;
+// use App\Coisas\Coisas;
+
+include_once './Usuarios.php';
+include_once './Coisas.php';
+
 include 'header.php';
 
-$_SESSION['connected'] = true;
-$_SESSION['usuario'] = $_GET['user'];
-
-if (!isset($_SESSION['connected']) || !isset($_SESSION['usuario'])) {
+if (!isset($_SESSION['connected']) && !isset($_SESSION['usuario'])) {
   header("Location: ./login.php");
   die('redirecionando...');
 }
 $usuario_id = $_SESSION['usuario'];
 
-$usuario = new Usuarios('coisas_emprestadas', 'localhost', 'root', '12mnmn 12');
+$usuario = new Usuarios();
 
 $user = $usuario->getUsuario($usuario_id);
 
@@ -26,20 +28,24 @@ $todasCoisas = $coisas->buscarTodasCoisas();
 
 $coisasDisponiveis = $coisas->coisasDisponiveis($usuario_id);
 
+$avatarColor = Usuarios::avatarColor();
+
 ?>
 <script src="js/script.js"></script>
 
 <div class="container">
   <div class="panel">
     <div class="user_info">
-      <!-- <span class="label">Informações do Usuário</span> -->
       <div class="info_avatar">
-        <img src="<?= $user['avatar'] ?>" />
+        <i class="fas fa-user-astronaut user <?= $avatarColor ?>"></i>
       </div>
       <div class="info-body">
-        <p><?= $user['nome'] ?></p>
-        <p><?= $user['descricao'] ?></p>
-        <p>Usuário desde: <?= $user['data_registro'] ?></p>
+        <p>Nome: <?= $user['nome'] ?></p>
+        <p>Username: <?= $user['username'] ?></p>
+        <p>Email: <?= $user['email'] ?></p>
+      </div>
+      <div>
+        <button class="abreModal" type="submit" onclick="modal(true)">Adicionar Alguma Coisa</button>
       </div>
     </div>
     <div class="coisas_emprestadas">
@@ -87,6 +93,16 @@ $coisasDisponiveis = $coisas->coisasDisponiveis($usuario_id);
       echo "<button onclick='emprestar(" . $usuario_id . "," . $coisaDisponivel['id_coisa'] . ")'>Emprestar</button>";
       echo "</div>";
     } ?>
+  </div>
+</div>
+
+<div id="addCoisas" class="modal">
+  <div class="addCoisas-conteudo">
+    <span class="close" onclick="modal(false)">&times;</span>
+    <input type="text" id="novo_nome" name="novo_nome" maxlength="25" placeholder="Digite o nome do produto" required />
+    <input type="text" id="nova_descricao" name="nova_descricao" maxlength="75" placeholder="Digite a descrição do produto" required />
+    <input type="hidden" id="novo_proprietario" name="novo_proprietario" value="<?= $usuario_id ?>" />
+    <button type="submit" id="novo_enviar" onclick="adicionar()">Criar Alguma Coisa</button>
   </div>
 </div>
 </body>

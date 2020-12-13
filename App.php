@@ -28,4 +28,10 @@ class App
         echo json_encode($data, $type);
         exit();
     }
+
+    public function query($sql)
+    {
+        $this->stmt = $this->db->prepare($sql);
+        return $this;
+    }
 }
